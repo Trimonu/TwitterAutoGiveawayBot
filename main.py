@@ -75,16 +75,13 @@ def tweetProcessing(tweet, usersData):
 
     else:
         if "ion" in tweet['full_text'].lower(): 
-            # Check If It Requires Likes
-            if "like" in tweet['full_text'].lower():
-                Favorite(tweet['id_str'])
-                print("Favorited")
-                tweetPro = True
+            Favorite(tweet['id_str'])
+            print("Favorited")
+            tweetPro = True
             
             time.sleep(random.randint(10, 20) / 10)
-            if "retweet" or "rt" in tweet['full_text'].lower():
-                Retweet(tweet['id_str'])
-                print("Retweeted")
+            Retweet(tweet['id_str'])
+            print("Retweeted")
             
             time.sleep(random.randint(10, 20) / 10)
             for users in tweet['entities']['user_mentions']:
