@@ -4,22 +4,31 @@ import random
 import requests
 
 # Vars
-tweetCount = 150
+tweetCount = 100
 searchTerm = "Soulstrife"
+comment = "Done @Boe @Joe"
+ct0 = "r39123i123jfaf"
+auth = "41841y2fhahf4914fada"
+
+
+
+
+
+
+
 
 # Declare Cookies and Headers
 cookies = {
-    'auth_token': 'f5e8350933d4fe9e663d7c8f9b73040dba86026d',
-    'ct0': 'e0d1841a77ba256d1b0fd29ebc1ee1936b105faf9329bf913e2f80c8b0c98950ddf86eff137c7064201a8a05588d973f2884fa0df974b6b0d89f9fef6d66b1a07a5a49b67dfdeb2b7fdbdfcbccf729c2',
+    'auth_token': auth,
+    'ct0': ct0,
 }
 
 headers = {
     'authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 OPR/91.0.4516.72',
-    'x-csrf-token': 'e0d1841a77ba256d1b0fd29ebc1ee1936b105faf9329bf913e2f80c8b0c98950ddf86eff137c7064201a8a05588d973f2884fa0df974b6b0d89f9fef6d66b1a07a5a49b67dfdeb2b7fdbdfcbccf729c2',
+    'x-csrf-token': ct0,
 
 }
-
 
 
 # Retweet tweet
@@ -57,15 +66,62 @@ def Follow(userID):
 def Search(search, cursor):
     search += "%20%22GIVEAWAY%22"
     if cursor != "":
-        response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=true&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe&cursor={cursor}", cookies=cookies, headers=headers)
+        response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=True&include_ext_limited_action_results=False&include_quote_count=True&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=True&include_entities=True&include_user_entities=True&include_ext_media_color=True&include_ext_media_availability=True&include_ext_sensitive_media_warning=True&include_ext_trusted_friends_metadata=True&send_error_codes=True&simple_quoted_tweet=True&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=True&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe&cursor={cursor}", cookies=cookies, headers=headers)
         return response
     else:
-        response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=true&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe", cookies=cookies, headers=headers)
+        response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=True&include_ext_limited_action_results=False&include_quote_count=True&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=True&include_entities=True&include_user_entities=True&include_ext_media_color=True&include_ext_media_availability=True&include_ext_sensitive_media_warning=True&include_ext_trusted_friends_metadata=True&send_error_codes=True&simple_quoted_tweet=True&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=True&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe", cookies=cookies, headers=headers)
         return response 
 
 # Get tweets on a user
 def getInfo(userID):
     response = requests.get(f"https://api.twitter.com/1.1/users/lookup.json?user_id={userID}", cookies=cookies, headers=headers)
+    return response
+
+# Comment on a tweet
+def comment(tweetID, text):
+    payload = {
+        "variables": {
+            "tweet_text": text,
+            "reply": {
+            "in_reply_to_tweet_id": tweetID,
+            "exclude_reply_user_ids": [
+                
+            ]
+            },
+            "media": {
+            "media_entities": [
+                
+            ],
+            "possibly_sensitive": False
+            },
+            "withDownvotePerspective": False,
+            "withReactionsMetadata": False,
+            "withReactionsPerspective": False,
+            "withSuperFollowsTweetFields": True,
+            "withSuperFollowsUserFields": True,
+            "semantic_annotation_ids": [
+            
+            ],
+            "dark_request": False
+        },
+        "features": {
+            "tweetypie_unmention_optimization_enabled": True,
+            "responsive_web_uc_gql_enabled": True,
+            "vibe_api_enabled": True,
+            "responsive_web_edit_tweet_api_enabled": True,
+            "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
+            "interactive_text_enabled": True,
+            "responsive_web_text_conversations_enabled": False,
+            "verified_phone_label_enabled": False,
+            "standardized_nudges_misinfo": True,
+            "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": False,
+            "responsive_web_graphql_timeline_navigation_enabled": True,
+            "responsive_web_enhance_cards_enabled": True
+        },
+        "queryId": "fl261vHLCoQQ5x7cpPEobQ"
+        }
+
+    response = requests.post("https://twitter.com/i/api/graphql/fl261vHLCoQQ5x7cpPEobQ/CreateTweet", json=payload, headers=headers, cookies=cookies)
     return response
 
 # Hivemind Meta
@@ -76,7 +132,6 @@ def tweetProcessing(tweet, usersData):
 
     else:
         if searchTerm.lower() in tweet['full_text'].lower():
-            print("soulshit") 
             Favorite(tweet['id_str'])
             print("Favorited")
             tweetPro = True
@@ -85,6 +140,10 @@ def tweetProcessing(tweet, usersData):
             Retweet(tweet['id_str'])
             print("Retweeted")
             
+            time.sleep(random.randint(10, 20) / 10)
+            comment(tweet['id_str'], comment)
+            print("Commented")
+
             time.sleep(random.randint(10, 20) / 10)
             for users in tweet['entities']['user_mentions']:
                 if users['id_str'] in usersData:
@@ -98,8 +157,7 @@ def tweetProcessing(tweet, usersData):
                     if data[0]['following'] == False:
                         Follow(users['id_str'])
                         print("Followed")
-        else: 
-            print("No searchterm???")
+
     return tweetPro
         
 
@@ -136,6 +194,7 @@ def main():
             if tweetProcessing(data['globalObjects']['tweets'][i], data['globalObjects']['users']):
                 tweetCounter += 1
                 print(tweetCounter)
+                
         time.sleep(random.randint(10, 20) / 10)
 
 main()
