@@ -34,7 +34,7 @@ Currently there are only 3 variables to change
 ```
 tweetCount = 100
 searchTerm = "Soulstrife"
-comment = "Done @Bob @Joe"
+commentText = "Done @Bob @Joe"
 ```
 
 TweetCount is the max # of tweets the bot will respond to.

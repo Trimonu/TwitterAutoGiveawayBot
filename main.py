@@ -6,7 +6,7 @@ import requests
 # Vars
 tweetCount = 100
 searchTerm = "Soulstrife"
-comment = "Done @Boe @Joe"
+commentText = "Done @Boe @Joe"
 ct0 = "r39123i123jfaf"
 auth = "41841y2fhahf4914fada"
 
@@ -139,9 +139,9 @@ def tweetProcessing(tweet, usersData):
             time.sleep(random.randint(10, 20) / 10)
             Retweet(tweet['id_str'])
             print("Retweeted")
-            
+
             time.sleep(random.randint(10, 20) / 10)
-            comment(tweet['id_str'], comment)
+            comment(tweet['id_str'], commentText)
             print("Commented")
 
             time.sleep(random.randint(10, 20) / 10)
