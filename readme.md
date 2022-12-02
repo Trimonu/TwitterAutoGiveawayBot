@@ -59,14 +59,14 @@ You will need to open Dev Tools (Ctrl + Shift + I). Then copy your CT0 and Auth 
 
 ## Support
 
-For support, DM at **Trimonu#0001** or create an **issue** on GitHub.
+For support, DM at **Trimonu #0001** or create an **issue** on GitHub.
 
 
 ## Contributing
 
 Contributions are always welcome!
 
-If you have any contributions or bugs DM me on discord at **Trimonu#0001**
+If you have any contributions or bugs DM me on discord at **Trimonu #0001**
 or create a **push request**
 
 
