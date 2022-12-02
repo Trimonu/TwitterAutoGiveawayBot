@@ -35,6 +35,8 @@ Currently there are only 3 variables to change
 tweetCount = 100
 searchTerm = "Soulstrife"
 commentText = "Done @Bob @Joe"
+complements = ['Gl everyone', 'Good luck to everyone else!', 'Appreciate the giveaway']
+
 ```
 
 TweetCount is the max # of tweets the bot will respond to.
@@ -43,6 +45,7 @@ SearchTerm combines "Soulstrife" and " Giveaway" so you don't need to include Gi
 
 Comment is what the bot will comment on the post, currently their is no way to disable commenting.
 
+Complements are a list of aditional text it will add to the comment to avoid bot detection and seem more human.
 
 ---
 You will also need to replace 2 more variables:
@@ -56,7 +59,7 @@ You will need to open Dev Tools (Ctrl + Shift + I). Then copy your CT0 and Auth 
 
 ## Support
 
-For support, DM **Trimonu#0001** or create an **issue** on GitHub.
+For support, DM at **Trimonu#0001** or create an **issue** on GitHub.
 
 
 ## Contributing

@@ -9,6 +9,7 @@ searchTerm = "Soulstrife"
 commentText = "Done @Boe @Joe"
 ct0 = "r39123i123jfaf"
 auth = "41841y2fhahf4914fada"
+complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
 
 
 
@@ -64,7 +65,7 @@ def Follow(userID):
 
 # Search for tweets
 def Search(search, cursor):
-    search += "%20%22GIVEAWAY%22"
+    #search += "%20%22GIVEAWAY%22"
     if cursor != "":
         response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=True&include_ext_limited_action_results=False&include_quote_count=True&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=True&include_entities=True&include_user_entities=True&include_ext_media_color=True&include_ext_media_availability=True&include_ext_sensitive_media_warning=True&include_ext_trusted_friends_metadata=True&send_error_codes=True&simple_quoted_tweet=True&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=True&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe&cursor={cursor}", cookies=cookies, headers=headers)
         return response
@@ -79,6 +80,8 @@ def getInfo(userID):
 
 # Comment on a tweet
 def comment(tweetID, text):
+    text += f" {random.choice(complements)}"
+    print(text) 
     payload = {
         "variables": {
             "tweet_text": text,
