@@ -1,7 +1,7 @@
 
 # Twitter Tree Bot
 
-People say money doesn't grow on trees but with this project 
+People say money doesn't grow on trees but with this bot 
 is basically does.
 
 Twitter Tree Bot is a self-bot which automatically 
@@ -15,6 +15,9 @@ earn you cash or in game rewards.
 - Auto Like
 - Auto Retweet
 - Auto Follow
+- Avoid Bot Detection
+- Human Like
+- Stop After Threshold 
 
 
 ## Installation
@@ -30,26 +33,25 @@ pip install -r requirements.txt
 ## Running
 
 To run the file you will need to change some variables.
-Currently there are only 3 variables to change 
+Currently there are only 4 variables to change 
+```py
+maxScrolls = 3
+SearchTerm = 'Valorant Giveaway'
+CommentText = "Done @Fishy @Yoru"
+Complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
 ```
-tweetCount = 100
-searchTerm = "Soulstrife"
-commentText = "Done @Bob @Joe"
-complements = ['Gl everyone', 'Good luck to everyone else!', 'Appreciate the giveaway']
 
-```
+MaxScrolls: is the max # of times the bot will cycle to the next page, each page has 20 tweets.
 
-TweetCount is the max # of tweets the bot will respond to.
+SearchTerm: Term to search for Ex, Valorant Giveaway, CSGO Giveaway, Giveaway
 
-SearchTerm combines "Soulstrife" and " Giveaway" so you don't need to include Giveaway in the search term. 
+CommentText: What to comment every time
 
-Comment is what the bot will comment on the post, currently their is no way to disable commenting.
-
-Complements are a list of aditional text it will add to the comment to avoid bot detection and seem more human.
+Complements: are a list of aditional text it will add to the comment to avoid bot detection and seem more human.
 
 ---
 You will also need to replace 2 more variables:
-```
+```py
 ct0 = "r39123i123jfaf"
 auth = "41841y2fhahf4914fada"
 ```

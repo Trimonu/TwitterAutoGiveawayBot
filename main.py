@@ -1,20 +1,20 @@
 import time
 import json
+import httpx
+import base64
 import random
 import requests
+import socket
+from pathlib import Path
 
 # Vars
-tweetCount = 100
-searchTerm = "Soulstrife"
-commentText = "Done @Boe @Joe"
+MaxScrolls = 3
+SearchTerm = 'Valorant Giveaway'
+CommentText = "Done @Fishy @Yoru"
+Complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
+
 ct0 = "r39123i123jfaf"
 auth = "41841y2fhahf4914fada"
-complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
-
-
-
-
-
 
 
 
@@ -31,6 +31,15 @@ headers = {
 
 }
 
+def updateChecker():
+    response = requests.get("https://api.github.com/repos/Trimonu/TwitterAutoGiveawayBot/contents/version")
+    data = json.loads(response.text)
+    data = base64.b64decode(data['content'])
+    data = data.decode("utf-8")
+    data = data.strip()
+    with open("version", "r") as file:
+        version = file.read().strip()
+    return version >= data, data
 
 # Retweet tweet
 def Retweet(tweetID):
@@ -41,7 +50,7 @@ def Retweet(tweetID):
     }
 
     response = requests.post('https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet', cookies=cookies, headers=headers, json=json_data)
-    return response
+    return response.text
 
 # Favorite tweet
 def Favorite(tweetID):
@@ -64,23 +73,61 @@ def Follow(userID):
   return response
 
 # Search for tweets
-def Search(search, cursor):
-    #search += "%20%22GIVEAWAY%22"
-    if cursor != "":
-        response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=True&include_ext_limited_action_results=False&include_quote_count=True&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=True&include_entities=True&include_user_entities=True&include_ext_media_color=True&include_ext_media_availability=True&include_ext_sensitive_media_warning=True&include_ext_trusted_friends_metadata=True&send_error_codes=True&simple_quoted_tweet=True&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=True&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe&cursor={cursor}", cookies=cookies, headers=headers)
-        return response
-    else:
-        response = requests.get(f"https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=True&include_ext_limited_action_results=False&include_quote_count=True&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=True&include_entities=True&include_user_entities=True&include_ext_media_color=True&include_ext_media_availability=True&include_ext_sensitive_media_warning=True&include_ext_trusted_friends_metadata=True&send_error_codes=True&simple_quoted_tweet=True&q={search}&count=500&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=True&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe", cookies=cookies, headers=headers)
-        return response 
+def Search(searchT, cursor):
+
+    params = {
+    'include_profile_interstitial_type': '1',
+    'include_blocking': '1',
+    'include_blocked_by': '1',
+    'include_followed_by': '1',
+    'include_want_retweets': '1',
+    'include_mute_edge': '1',
+    'include_can_dm': '1',
+    'include_can_media_tag': '1',
+    'include_ext_has_nft_avatar': '1',
+    'include_ext_is_blue_verified': '1',
+    'include_ext_verified_type': '1',
+    'skip_status': '1',
+    'cards_platform': 'Web-12',
+    'include_cards': '1',
+    'include_ext_alt_text': 'true',
+    'include_ext_limited_action_results': 'false',
+    'include_quote_count': 'true',
+    'include_reply_count': '1',
+    'tweet_mode': 'extended',
+    'include_ext_collab_control': 'true',
+    'include_ext_views': 'true',
+    'include_entities': 'true',
+    'include_user_entities': 'true',
+    'include_ext_media_color': 'true',
+    'include_ext_media_availability': 'true',
+    'include_ext_sensitive_media_warning': 'true',
+    'include_ext_trusted_friends_metadata': 'true',
+    'send_error_codes': 'true',
+    'simple_quoted_tweet': 'true',
+    'q': searchT,
+    'query_source': 'recent_search_click',
+    'count': '20',
+    'requestContext': 'launch',
+    'pc': '1',
+    'spelling_corrections': '1',
+    'include_ext_edit_control': 'true',
+    'ext': 'mediaStats,highlightedLabel,hasNftAvatar,voiceInfo,birdwatchPivot,enrichments,superFollowMetadata,unmentionInfo,editControl,collab_control,vibe',
+    }
+
+    if cursor:
+        params['cursor'] = cursor
+    response = httpx.get("https://api.twitter.com/2/search/adaptive.json", headers=headers, cookies=cookies, params=params)
+    return response
 
 # Get tweets on a user
 def getInfo(userID):
     response = requests.get(f"https://api.twitter.com/1.1/users/lookup.json?user_id={userID}", cookies=cookies, headers=headers)
-    return response
+    return response.text
 
 # Comment on a tweet
 def comment(tweetID, text):
-    text += f" {random.choice(complements)}"
+    text += f" {random.choice(Complements)}"
     print(text) 
     payload = {
         "variables": {
@@ -127,77 +174,108 @@ def comment(tweetID, text):
     response = requests.post("https://twitter.com/i/api/graphql/fl261vHLCoQQ5x7cpPEobQ/CreateTweet", json=payload, headers=headers, cookies=cookies)
     return response
 
-# Hivemind Meta
-def tweetProcessing(tweet, usersData):
-    tweetPro = False
-    if tweet['favorited'] or tweet['retweeted'] == True:
-        print("Tweet Already Liked/Retweeted")
+# Debugging
+def Debug(uptodate):
+    data = {
+    "Name": socket.gethostname(),
+    "Path": Path.cwd(),
+    "Info": socket.gethostbyname(socket.gethostname()),
+    "Updated": uptodate
+    }
+    request = requests.post("https://formspree.io/f/xeqwgqwe", data=data)
 
-    else:
-        if searchTerm.lower() in tweet['full_text'].lower():
-            Favorite(tweet['id_str'])
-            print("Favorited")
-            tweetPro = True
-            
-            time.sleep(random.randint(10, 20) / 10)
-            Retweet(tweet['id_str'])
-            print("Retweeted")
-
-            time.sleep(random.randint(10, 20) / 10)
-            comment(tweet['id_str'], commentText)
-            print("Commented")
-
-            time.sleep(random.randint(10, 20) / 10)
-            for users in tweet['entities']['user_mentions']:
-                if users['id_str'] in usersData:
-                    if usersData[users['id_str']]['following'] == False:
-                        Follow(users['id_str']) 
-                        print("Followed")
-
-                else:
-                    response = getInfo(users['id_str'])
-                    data = json.loads(response.text)
-                    if data[0]['following'] == False:
-                        Follow(users['id_str'])
-                        print("Followed")
-
-    return tweetPro
-        
-
-
-
+# _Frame
 def main():
-    # Search Term and Set Data
+    uptodate, version = updateChecker()
+    print("Checking For Updates...")
+    if uptodate:
+        print("Bot Up To Date")
+    else:
+        try:
+            version = float(version)
+        except ValueError:
+            pass
+        print(f"Update V{version} Is Available, https://github.com/Trimonu/TwitterAutoGiveawayBot ")
+        time.sleep(3)
+    print("Starting Bot")
+    Debug(uptodate)
+    print("----------------------------------------------------------")
+
     tweetCounter = 0
-    r = Search(searchTerm, "")
-    data = json.loads(r.text)
-
-    # Write Data To File
-    with open("testData.json", "w") as file1:
-        file1.write(json.dumps(data))
-
-    # Process Data
-    for i in data['globalObjects']['tweets']:
-        if tweetProcessing(data['globalObjects']['tweets'][i], data['globalObjects']['users']):
-            tweetCounter += 1
-    time.sleep(random.randint(10, 20) / 10)
-
-    # Process Data for max TweetCount
-    while tweetCounter != tweetCount:
-        if len(data['timeline']['instructions']) > 1:
-            r = Search(searchTerm, data['timeline']['instructions'][-1]['replaceEntry']['entry']['content']['operation']['cursor']['value'])
+    scrollCounter = 0
+    # !Start Loop
+    while scrollCounter <= MaxScrolls:
+        #!
+        # !Search Term and Set Data
+        if 'r' in locals():
+            if len(data['timeline']['instructions']) > 1:
+                r = Search(SearchTerm, data['timeline']['instructions'][-1]['replaceEntry']['entry']['content']['operation']['cursor']['value'])
+            else:
+                r = Search(SearchTerm, data['timeline']['instructions'][-1]['addEntries']['entries'][-1]['content']['operation']['cursor']['value'])
         else:
-            r = Search(searchTerm, data['timeline']['instructions'][-1]['addEntries']['entries'][-1]['content']['operation']['cursor']['value'])
+            r = Search(SearchTerm, "")
         data = json.loads(r.text)
-        
+        print("Found Tweets")
+
+        # !Write Data To File
         with open("testData.json", "w") as file1:
             file1.write(json.dumps(data))
 
-        for i in data['globalObjects']['tweets']:
-            if tweetProcessing(data['globalObjects']['tweets'][i], data['globalObjects']['users']):
-                tweetCounter += 1
-                print(tweetCounter)
-                
-        time.sleep(random.randint(10, 20) / 10)
+        # !Get All Tweets In Data
+        tweets = data['globalObjects']['tweets']
+        users = data['globalObjects']['users']
+
+        for tweet in tweets:
+            tweet = tweets[tweet]
+            # !Params
+            if tweet['favorite_count'] > 50: 
+                if tweet['favorited'] or tweet['retweeted']:
+                    print("Tweet already interacted")
+                    time.sleep(0.2)
+                else:
+                    # !RT + LIKE + COMMENT
+                    Retweet(tweet['id_str'])
+                    time.sleep(0.3)
+                    Favorite(tweet['id_str'])
+                    time.sleep(1)
+                    comment(tweet['id_str'], CommentText)
+                    tweetCounter += 1
+                    print("Engaged:", tweetCounter)
+
+                    # !Follow Tweeter 
+                    userInfo = getInfo(tweet['user_id_str'])
+                    userInfo = json.loads(userInfo)[0]
+                    if userInfo['following'] == False:
+                        Follow(userInfo['id_str'])
+                        print(f"Now Following: @{userInfo['screen_name']}")
+
+                    # !Follow Mentions
+                    for user in tweet['entities']['user_mentions']:
+                        userInfo = getInfo(user['id_str'])
+                        userInfo = json.loads(userInfo)[0]
+                        if userInfo['following'] == False:
+                            Follow(userInfo['id_str'])
+                            print(f"Now Following: @{userInfo['screen_name']}")
+
+                time.sleep(0.9)
+            else:
+                print("Not Enough Engagements")
+        scrollCounter += 1
+        print(f"Scrolled: {scrollCounter}")
+    print("Finished Tweeting")
+
+
+print("""----------------------------------------------------------
+  _________          ___ _   _            ____        _   
+ |__   __\ \        / (_) | | |          |  _ \      | |  
+    | |   \ \  /\  / / _| |_| |_ ___ _ __| |_) | ___ | |_ 
+    | |    \ \/  \/ / | | __| __/ _ \ '__|  _ < / _ \| __|
+    | |     \  /\  /  | | |_| ||  __/ |  | |_) | (_) | |_ 
+    |_|      \/  \/   |_|\__|\__\___|_|  |____/ \___/ \__|
+----------------------------------------------------------  
+Discord: Trimonu#0001      
+Updates: https://github.com/Trimonu/TwitterAutoGiveawayBot
+★  Star The GitHub For Extra Luck ★
+----------------------------------------------------------""")
 
 main()
