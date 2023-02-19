@@ -39,6 +39,7 @@ maxScrolls = 3
 SearchTerm = 'Valorant Giveaway'
 CommentText = "Done @Fishy @Yoru"
 Complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
+TinyPrint = True
 ```
 
 MaxScrolls: is the max # of times the bot will cycle to the next page, each page has 20 tweets.
@@ -49,6 +50,7 @@ CommentText: What to comment every time
 
 Complements: are a list of aditional text it will add to the comment to avoid bot detection and seem more human.
 
+TinyPrint: Cleans up the output of the program, recommend to keep on
 ---
 You will also need to replace 2 more variables:
 ```py

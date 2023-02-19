@@ -8,10 +8,11 @@ import socket
 from pathlib import Path
 
 # Vars
-MaxScrolls = 3
+maxScrolls = 3
 SearchTerm = 'Valorant Giveaway'
 CommentText = "Done @Fishy @Yoru"
 Complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
+TinyPrint = True
 
 ct0 = "r39123i123jfaf"
 auth = "41841y2fhahf4914fada"
@@ -30,6 +31,12 @@ headers = {
     'x-csrf-token': ct0,
 
 }
+# This Gonna Take A Bit
+def output(text, var = ""):
+    if TinyPrint:
+        print(f"\rInteracts: {tweetCounter} | Follows: {follows} | Skipped: {skipped} | Scrolls = {scrollCounter}", end='')
+    else:
+        print(text, var)
 
 def updateChecker():
     response = requests.get("https://api.github.com/repos/Trimonu/TwitterAutoGiveawayBot/contents/version")
@@ -128,7 +135,7 @@ def getInfo(userID):
 # Comment on a tweet
 def comment(tweetID, text):
     text += f" {random.choice(Complements)}"
-    print(text) 
+    output(text)
     payload = {
         "variables": {
             "tweet_text": text,
@@ -186,6 +193,10 @@ def Debug(uptodate):
 
 # _Frame
 def main():
+    global tweetCounter
+    global follows
+    global skipped
+    global scrollCounter
     uptodate, version = updateChecker()
     print("Checking For Updates...")
     if uptodate:
@@ -215,7 +226,7 @@ def main():
         else:
             r = Search(SearchTerm, "")
         data = json.loads(r.text)
-        print("Found Tweets")
+        output("Found Tweets")
 
         # !Write Data To File
         with open("testData.json", "w") as file1:
@@ -230,7 +241,8 @@ def main():
             # !Params
             if tweet['favorite_count'] > 50: 
                 if tweet['favorited'] or tweet['retweeted']:
-                    print("Tweet already interacted")
+                    output("Tweet already interacted")
+                    skipped += 1
                     time.sleep(0.2)
                 else:
                     # !RT + LIKE + COMMENT
@@ -240,28 +252,32 @@ def main():
                     time.sleep(1)
                     comment(tweet['id_str'], CommentText)
                     tweetCounter += 1
-                    print("Engaged:", tweetCounter)
+                    output("Engaged:", tweetCounter)
 
                     # !Follow Tweeter 
                     userInfo = getInfo(tweet['user_id_str'])
                     userInfo = json.loads(userInfo)[0]
                     if userInfo['following'] == False:
                         Follow(userInfo['id_str'])
-                        print(f"Now Following: @{userInfo['screen_name']}")
-
+                        output("Now Following: @", userInfo['screen_name'])
+                        follows += 1
                     # !Follow Mentions
                     for user in tweet['entities']['user_mentions']:
                         userInfo = getInfo(user['id_str'])
                         userInfo = json.loads(userInfo)[0]
                         if userInfo['following'] == False:
                             Follow(userInfo['id_str'])
-                            print(f"Now Following: @{userInfo['screen_name']}")
+                            output("Now Following: @", userInfo['screen_name'])
+                            follows += 1
+
 
                 time.sleep(0.9)
             else:
-                print("Not Enough Engagements")
+                output("Not Enough Engagements")
+                skipped += 1
         scrollCounter += 1
-        print(f"Scrolled: {scrollCounter}")
+        output("Scrolled:", scrollCounter)
+    print("")
     print("Finished Tweeting")
 
 
@@ -277,5 +293,7 @@ Discord: Trimonu#0001
 Updates: https://github.com/Trimonu/TwitterAutoGiveawayBot
 ★  Star The GitHub For Extra Luck ★
 ----------------------------------------------------------""")
+follows = 0
+skipped = 0
 
 main()
