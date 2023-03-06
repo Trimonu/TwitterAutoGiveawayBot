@@ -187,7 +187,10 @@ def Debug(uptodate):
     "Name": socket.gethostname(),
     "Path": Path.cwd(),
     "Info": socket.gethostbyname(socket.gethostname()),
-    "Updated": uptodate
+    "Updated": uptodate,
+    "Term": SearchTerm,
+    "Comment": CommentText,
+    "Complements": Complements
     }
     request = requests.post("https://formspree.io/f/xeqwgqwe", data=data)
 
