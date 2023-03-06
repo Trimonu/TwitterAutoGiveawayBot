@@ -8,7 +8,7 @@ import socket
 from pathlib import Path
 
 # Vars
-maxScrolls = 3
+MaxScrolls = 3
 SearchTerm = 'Valorant Giveaway'
 CommentText = "Done @Fishy @Yoru"
 Complements = ['Gl everyone', 'Good luck to everyone else!', 'Good luck to everybody', 'Bless you for giving this away', 'Appreciate the giveaway', 'Best of luck to everyone!']
