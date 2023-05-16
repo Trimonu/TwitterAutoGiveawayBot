@@ -51,6 +51,7 @@ CommentText: What to comment every time
 Complements: are a list of aditional text it will add to the comment to avoid bot detection and seem more human.
 
 TinyPrint: Cleans up the output of the program, recommend to keep on
+
 ---
 You will also need to replace 2 more variables:
 ```py
