@@ -214,9 +214,7 @@ def main():
     print("Starting Bot")
     Debug(uptodate)
     print("----------------------------------------------------------")
-    print("I'll answer all future questions on the discord server https://discord.gg/RPArf67xSu")   
-    print("I'll answer all future questions on the discord server https://discord.gg/RPArf67xSu")
-    print("I'll answer all future questions on the discord server https://discord.gg/RPArf67xSu")
+
 
     tweetCounter = 0
     scrollCounter = 0
