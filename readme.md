@@ -1,9 +1,6 @@
 
 # Twitter Tree Bot
 
-People say money doesn't grow on trees but with this bot 
-is basically does.
-
 Twitter Tree Bot is a self-bot which automatically 
 comments, likes, follows, and retweets giveaways to automically 
 earn you cash or in game rewards.
