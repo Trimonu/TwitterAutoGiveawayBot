@@ -1,6 +1,9 @@
 
 # Twitter Tree Bot
 
+This version is now deprecated for the newest join the discord: https://discord.gg/RPArf67xSu
+
+
 Twitter Tree Bot is a self-bot which automatically 
 comments, likes, follows, and retweets giveaways to automically 
 earn you cash or in game rewards.
